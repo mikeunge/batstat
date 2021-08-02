@@ -19,8 +19,8 @@ if ! echo "$battery" | grep -q InternalBattery; then
 fi
 
 # Get the 'status', this shows if it's charging or draining. trim the '
-status=$(awk '{print $4,$5}' <<< $battery | tr -d "'")
-percent=$(grep -o "[0-9]*"% <<< $battery)
+status=$(awk '{print $4,$5}' <<< "$battery" | tr -d "'")
+percent=$(grep -o "[0-9]*"% <<< "$battery")
 
 # --- Define the icons to display ---
 icon_0=""
@@ -40,25 +40,25 @@ def_battery() {
     # Pass in "charging" or "not_charging" as the mode.
     local mode=$1
 
-    if [[ $percent < 25 ]]; then
+    if [[ $percent -lt 25 ]]; then
         if [[ $mode == "charging" ]]; then
             icon=$icon_charging_0
         else
             icon=$icon_0
         fi
-    elif [[ $percent > 25 ]] && [[ $percent < 50 ]]; then
+    elif [[ $percent -gt 25 ]] && [[ $percent -lt 50 ]]; then
         if [[ $mode == "charging" ]]; then
             icon=$icon_charging_25
         else
             icon=$icon_25
         fi
-    elif [[ $percent > 50 ]] && [[ $percent < 75 ]]; then
+    elif [[ $percent -gt 50 ]] && [[ $percent -lt 75 ]]; then
         if [[ $mode == "charging" ]]; then
             icon=$icon_charging_50
         else
             icon=$icon_50
         fi
-    elif [[ $percent > 75 ]] && [[ $percent < 90 ]]; then
+    elif [[ $percent -gt 75 ]] && [[ $percent -lt 90 ]]; then
         if [[ $mode == "charging" ]]; then
             icon=$icon_charging_75
         else
